@@ -1,34 +1,34 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { BrowserRouter, Route, Routes } from "react-router"
+import { lazy, Suspense } from "react";
+import { CircularProgress } from "@mui/material";
+import Layout from "./pages/layout";
 import './App.css'
 
-function App() {
-  const [count, setCount] = useState(0)
+const Home = lazy(() => import("./pages/home"))
+const LogIn = lazy(() => import("./pages/logIn"))
+const SignUp = lazy(() => import("./pages/signUp"))
+const Cars = lazy(() => import("./pages/carsPage"))
+const Info = lazy(() => import("./pages/info"))
+const Contacts = lazy(() => import("./pages/contacts"))
+const About = lazy(() => import("./pages/about"))
 
+const App = () => {
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <BrowserRouter>
+      <Suspense fallback={<CircularProgress size={200} className="m-[35vh_43%]" />}>
+        <Routes>
+            <Route path="/" element={<Layout />}>
+              <Route index element={<Home />} />
+              <Route path="/logIn" element={<LogIn />} />
+              <Route path="/signUp" element={<SignUp />} />
+              <Route path="/cars" element={<Cars />} />
+              <Route path="/info/:id" element={<Info />} />
+              <Route path="/contacts" element={<Contacts />} />
+              <Route path="/about" element={<About />} />
+            </Route>
+        </Routes>
+      </Suspense>
+    </BrowserRouter>
   )
 }
 
